@@ -73,11 +73,11 @@ function getWIBDayRange(daysFromNow) {
 function getSubject(tier, daysLeft) {
   switch (tier.level) {
     case "informatif":
-      return `📋 Langganan Sikasir Laundry Anda akan berakhir dalam ${daysLeft} hari`;
+      return `Langganan Sikasir Laundry Anda akan berakhir dalam ${daysLeft} hari`;
     case "urgent":
-      return `⚠️ Segera Perpanjang! Langganan Anda berakhir ${daysLeft} hari lagi`;
+      return `Segera Perpanjang! Langganan Anda berakhir ${daysLeft} hari lagi`;
     case "critical":
-      return `🚨 BESOK Langganan Anda Berakhir — Perpanjang Sekarang!`;
+      return `BESOK Langganan Anda Berakhir - Perpanjang Sekarang!`;
     default:
       return `Reminder Langganan Sikasir Laundry`;
   }
@@ -112,7 +112,7 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
           <tr>
             <td style="background-color:${tier.color};padding:24px 32px;text-align:center;">
               <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;">
-                ${tier.level === "critical" ? "🚨" : tier.level === "urgent" ? "⚠️" : "📋"} Reminder Langganan
+                Reminder Langganan
               </h1>
             </td>
           </tr>
