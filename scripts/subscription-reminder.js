@@ -306,6 +306,9 @@ async function main() {
         );
         totalFailed++;
       }
+
+      // Delay to avoid Resend rate limit (max 2 req/sec)
+      await new Promise((resolve) => setTimeout(resolve, 600));
     }
   }
 
