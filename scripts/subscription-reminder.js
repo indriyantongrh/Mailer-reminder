@@ -6,7 +6,7 @@ const { Resend } = require("resend");
 const RESEND_FROM = "Sikasir Laundry <admin@sikasirlaundry.web.id>";
 const CTA_URL =
   "https://play.google.com/store/apps/details?id=com.sikasir.laundry.sikasirlaundry";
-const WHATSAPP_CS_URL = "https://wa.me/6285161616169";
+const WHATSAPP_CS_URL = "https://wa.me/6285144907717";
 const BRAND_COLOR = "#0a57a2";
 
 const TIERS = [
