@@ -16,12 +16,12 @@ async function main() {
     tomorrow.setHours(10, 0, 0, 0); // 10:00 WIB = 03:00 UTC
 
     console.log("📝 Adding test user to Firestore...");
-    console.log(`   Email: masyantoya@gmail.com`);
+    console.log(`   Email: masyantonugroho@gmail.com`);
     console.log(`   accessUntil: ${tomorrow.toISOString()}`);
 
     await db.collection("users").doc("test-reminder-user").set({
         name: "Test User",
-        email: "masyantoya@gmail.com",
+        email: "masyantonugroho@gmail.com",
         accessUntil: admin.firestore.Timestamp.fromDate(tomorrow),
     });
 
