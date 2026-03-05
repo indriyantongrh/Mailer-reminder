@@ -73,11 +73,11 @@ function getWIBDayRange(daysFromNow) {
 function getSubject(tier, daysLeft) {
   switch (tier.level) {
     case "informatif":
-      return `Langganan Sikasir Laundry Anda akan berakhir dalam ${daysLeft} hari`;
+      return `${daysLeft} Hari Lagi Langganan Anda Berakhir - Jangan Sampai Terputus!`;
     case "urgent":
-      return `Segera Perpanjang! Langganan Anda berakhir ${daysLeft} hari lagi`;
+      return `Tinggal ${daysLeft} Hari! Perpanjang Langganan Sikasir Laundry Anda`;
     case "critical":
-      return `BESOK Langganan Anda Berakhir - Perpanjang Sekarang!`;
+      return `BESOK Terakhir! Perpanjang Sekarang Sebelum Akses Ditutup`;
     default:
       return `Reminder Langganan Sikasir Laundry`;
   }
@@ -88,11 +88,31 @@ function getSubject(tier, daysLeft) {
  */
 function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
   const formattedDate = formatTanggalIndonesia(expiryDate);
+  const firstName = userName.split(" ")[0];
 
-  const urgencyText =
+  const greetingText =
     daysLeft === 1
-      ? "Langganan Anda akan berakhir <strong>besok</strong>!"
-      : `Langganan Anda akan berakhir dalam <strong>${daysLeft} hari</strong>.`;
+      ? `Ini adalah <strong>pengingat terakhir</strong> sebelum langganan Anda berakhir <strong>besok</strong>.`
+      : `Langganan Sikasir Laundry Anda akan berakhir dalam <strong>${daysLeft} hari</strong>.`;
+
+  const urgencyMessage =
+    daysLeft === 1
+      ? "Setelah besok, akses Anda ke seluruh fitur akan otomatis dihentikan. Perpanjang sekarang agar bisnis laundry Anda tetap berjalan lancar!"
+      : daysLeft === 3
+        ? "Waktu Anda semakin terbatas. Segera perpanjang agar tidak ada gangguan pada operasional laundry Anda."
+        : "Kami ingin memastikan Anda tetap bisa mengelola bisnis laundry dengan mudah. Perpanjang sebelum masa aktif habis.";
+
+  const bannerGradient =
+    daysLeft === 1
+      ? "background:linear-gradient(135deg, #dc2626 0%, #ef4444 50%, #f87171 100%);"
+      : daysLeft === 3
+        ? "background:linear-gradient(135deg, #ea580c 0%, #f97316 50%, #fb923c 100%);"
+        : "background:linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);";
+
+  const countdownBg =
+    daysLeft === 1 ? "#fef2f2" : daysLeft === 3 ? "#fff7ed" : "#fffbeb";
+  const countdownBorder =
+    daysLeft === 1 ? "#fca5a5" : daysLeft === 3 ? "#fdba74" : "#fcd34d";
 
   return `
 <!DOCTYPE html>
@@ -102,56 +122,134 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reminder Langganan Sikasir Laundry</title>
 </head>
-<body style="margin:0;padding:0;background-color:#f4f6f9;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f9;padding:32px 16px;">
+<body style="margin:0;padding:0;background-color:#eef2f7;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#eef2f7;padding:32px 16px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 8px 32px rgba(10,87,162,0.12);">
           
-          <!-- Banner -->
+          <!-- Header Banner with Gradient -->
           <tr>
-            <td style="background-color:${tier.color};padding:24px 32px;text-align:center;">
-              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;">
-                Reminder Langganan
-              </h1>
-            </td>
-          </tr>
-
-          <!-- Body -->
-          <tr>
-            <td style="padding:32px;">
-              <p style="margin:0 0 16px;font-size:16px;color:#1a1a2e;line-height:1.6;">
-                Halo <strong>${userName}</strong>,
-              </p>
-              <p style="margin:0 0 16px;font-size:16px;color:#1a1a2e;line-height:1.6;">
-                ${urgencyText}
-              </p>
-
-              <!-- Info Box -->
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+            <td style="${bannerGradient}padding:36px 32px 28px;text-align:center;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td style="background-color:#f0f4f8;border-left:4px solid ${BRAND_COLOR};border-radius:0 8px 8px 0;padding:20px 24px;">
-                    <p style="margin:0 0 8px;font-size:14px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:600;">
-                      Tanggal Berakhir
-                    </p>
-                    <p style="margin:0;font-size:20px;color:${BRAND_COLOR};font-weight:700;">
-                      ${formattedDate}
+                  <td align="center" style="padding-bottom:16px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="background-color:rgba(255,255,255,0.2);border-radius:12px;padding:10px 20px;">
+                          <span style="color:#ffffff;font-size:18px;font-weight:800;letter-spacing:1px;">SIKASIR LAUNDRY</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center">
+                    <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;line-height:1.3;">
+                      Langganan Anda Segera Berakhir
+                    </h1>
+                    <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:15px;font-weight:400;">
+                      Jangan biarkan operasional laundry Anda terganggu
                     </p>
                   </td>
                 </tr>
               </table>
+            </td>
+          </tr>
 
-              <p style="margin:0 0 24px;font-size:16px;color:#1a1a2e;line-height:1.6;">
-                Pastikan Anda memperpanjang langganan agar tetap bisa menggunakan seluruh fitur 
-                <strong style="color:${BRAND_COLOR};">Sikasir Laundry</strong> tanpa gangguan.
+          <!-- Countdown Box -->
+          <tr>
+            <td style="padding:0 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-20px;">
+                <tr>
+                  <td style="background-color:${countdownBg};border:2px solid ${countdownBorder};border-radius:12px;padding:20px;text-align:center;">
+                    <p style="margin:0 0 4px;font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">
+                      Sisa Waktu
+                    </p>
+                    <p style="margin:0 0 4px;font-size:42px;color:${tier.color};font-weight:800;line-height:1;">
+                      ${daysLeft}
+                    </p>
+                    <p style="margin:0;font-size:14px;color:#64748b;font-weight:600;">
+                      hari lagi &bull; ${formattedDate}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Body Content -->
+          <tr>
+            <td style="padding:28px 32px 16px;">
+              <p style="margin:0 0 16px;font-size:16px;color:#1e293b;line-height:1.7;">
+                Halo <strong>${firstName}</strong>,
               </p>
+              <p style="margin:0 0 12px;font-size:16px;color:#1e293b;line-height:1.7;">
+                ${greetingText}
+              </p>
+              <p style="margin:0 0 24px;font-size:15px;color:#475569;line-height:1.7;">
+                ${urgencyMessage}
+              </p>
+            </td>
+          </tr>
 
-              <!-- CTA Button -->
+          <!-- Features Section -->
+          <tr>
+            <td style="padding:0 32px 24px;">
+              <p style="margin:0 0 16px;font-size:14px;color:#64748b;text-transform:uppercase;letter-spacing:1px;font-weight:700;">
+                Fitur yang akan Anda kehilangan:
+              </p>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td align="center" style="padding:8px 0 16px;">
+                  <td style="padding:10px 16px;background-color:#f8fafc;border-radius:8px;margin-bottom:8px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" valign="top" style="padding-right:12px;font-size:18px;">&#10060;</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                          <strong>Pencatatan Transaksi</strong> - Input order, cetak nota, laporan harian
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                <tr>
+                  <td style="padding:10px 16px;background-color:#f8fafc;border-radius:8px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" valign="top" style="padding-right:12px;font-size:18px;">&#10060;</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                          <strong>Manajemen Pelanggan</strong> - Data pelanggan, riwayat order, notifikasi
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr><td style="height:8px;"></td></tr>
+                <tr>
+                  <td style="padding:10px 16px;background-color:#f8fafc;border-radius:8px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="32" valign="top" style="padding-right:12px;font-size:18px;">&#10060;</td>
+                        <td style="font-size:14px;color:#334155;line-height:1.5;">
+                          <strong>Laporan Keuangan</strong> - Rekap pendapatan, grafik, export data
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding:0 32px 8px;" align="center">
+              <table role="presentation" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background:linear-gradient(135deg, ${BRAND_COLOR} 0%, #1e7dd9 100%);border-radius:10px;box-shadow:0 4px 16px rgba(10,87,162,0.3);">
                     <a href="${CTA_URL}" target="_blank" 
-                       style="display:inline-block;background-color:${BRAND_COLOR};color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:14px 40px;border-radius:8px;letter-spacing:0.5px;">
+                       style="display:inline-block;color:#ffffff;text-decoration:none;font-size:16px;font-weight:700;padding:16px 48px;letter-spacing:0.5px;">
                       Perpanjang Sekarang
                     </a>
                   </td>
@@ -160,25 +258,58 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
             </td>
           </tr>
 
+          <tr>
+            <td align="center" style="padding:12px 32px 28px;">
+              <p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.5;">
+                Proses perpanjangan cepat &amp; mudah melalui aplikasi
+              </p>
+            </td>
+          </tr>
+
           <!-- Divider -->
           <tr>
             <td style="padding:0 32px;">
-              <hr style="border:none;border-top:1px solid #e2e8f0;margin:0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="border-top:1px solid #e2e8f0;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Help Section -->
+          <tr>
+            <td style="padding:24px 32px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#f0f9ff;border-radius:10px;padding:20px 24px;text-align:center;">
+                    <p style="margin:0 0 8px;font-size:15px;color:#1e293b;font-weight:600;">
+                      Butuh bantuan perpanjangan?
+                    </p>
+                    <p style="margin:0 0 16px;font-size:14px;color:#64748b;line-height:1.5;">
+                      Tim Customer Service kami siap membantu Anda
+                    </p>
+                    <a href="${WHATSAPP_CS_URL}" target="_blank" 
+                       style="display:inline-block;background-color:#25d366;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 28px;border-radius:8px;">
+                      Chat via WhatsApp
+                    </a>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="padding:24px 32px;text-align:center;">
-              <p style="margin:0 0 8px;font-size:13px;color:#94a3b8;line-height:1.5;">
-                Butuh bantuan? Hubungi Customer Service kami:
+            <td style="background-color:#f8fafc;padding:24px 32px;text-align:center;border-top:1px solid #e2e8f0;">
+              <p style="margin:0 0 8px;font-size:13px;color:#64748b;line-height:1.5;">
+                Email ini dikirim otomatis oleh sistem <strong>Sikasir Laundry</strong>.
               </p>
-              <a href="${WHATSAPP_CS_URL}" target="_blank" 
-                 style="display:inline-block;color:${BRAND_COLOR};text-decoration:none;font-size:14px;font-weight:600;">
-                💬 Chat WhatsApp CS
-              </a>
-              <p style="margin:16px 0 0;font-size:12px;color:#cbd5e1;">
-                &copy; ${new Date().getFullYear()} Sikasir Laundry. All rights reserved.
+              <p style="margin:0 0 12px;font-size:12px;color:#94a3b8;line-height:1.5;">
+                Anda menerima email ini karena langganan Anda akan segera berakhir.
+              </p>
+              <p style="margin:0;font-size:12px;color:#cbd5e1;">
+                &copy; ${new Date().getFullYear()} Sikasir Laundry &bull; Solusi Kasir Laundry Terpercaya
               </p>
             </td>
           </tr>
