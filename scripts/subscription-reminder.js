@@ -160,7 +160,7 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
           <!-- Countdown Box -->
           <tr>
             <td style="padding:0 32px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-20px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-36px;">
                 <tr>
                   <td style="background-color:${countdownBg};border:2px solid ${countdownBorder};border-radius:12px;padding:20px;text-align:center;">
                     <p style="margin:0 0 4px;font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">
