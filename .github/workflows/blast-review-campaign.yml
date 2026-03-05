@@ -1,0 +1,30 @@
+name: Blast Email - Review Campaign
+
+on:
+  workflow_dispatch:
+    # Manual trigger only — jangan schedule blast email
+
+jobs:
+  send-blast:
+    name: Send Review Campaign Blast Email
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        working-directory: scripts
+        run: npm install
+
+      - name: Run blast review campaign
+        working-directory: scripts
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: node blast-review-campaign.js
