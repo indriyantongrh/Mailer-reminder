@@ -162,15 +162,29 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
             <td style="padding:0 32px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:-36px;">
                 <tr>
-                  <td style="background-color:${countdownBg};border:2px solid ${countdownBorder};border-radius:12px;padding:20px;text-align:center;">
-                    <p style="margin:0 0 4px;font-size:13px;color:#64748b;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;">
+                  <td style="background-color:#ffffff;border-radius:16px;padding:24px 20px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,0.12);">
+                    <p style="margin:0 0 12px;font-size:12px;color:#ffffff;text-transform:uppercase;letter-spacing:2px;font-weight:700;">
+                      <span style="background-color:${tier.color};padding:4px 14px;border-radius:20px;">
+                        ${daysLeft === 1 ? "MENDESAK!" : daysLeft === 3 ? "SEGERA!" : "PERHATIAN"}
+                      </span>
+                    </p>
+                    <p style="margin:0 0 2px;font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:2px;font-weight:600;">
                       Sisa Waktu
                     </p>
-                    <p style="margin:0 0 4px;font-size:42px;color:${tier.color};font-weight:800;line-height:1;">
-                      ${daysLeft}
+                    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:8px auto;">
+                      <tr>
+                        <td style="background-color:${countdownBg};border:3px solid ${tier.color};border-radius:14px;padding:12px 32px;min-width:80px;">
+                          <p style="margin:0;font-size:56px;color:${tier.color};font-weight:900;line-height:1;font-style:italic;">
+                            ${daysLeft}
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+                    <p style="margin:8px 0 0;font-size:15px;color:#475569;font-weight:700;letter-spacing:0.5px;">
+                      HARI LAGI
                     </p>
-                    <p style="margin:0;font-size:14px;color:#64748b;font-weight:600;">
-                      hari lagi &bull; ${formattedDate}
+                    <p style="margin:6px 0 0;font-size:13px;color:#94a3b8;font-weight:500;">
+                      Berakhir pada ${formattedDate}
                     </p>
                   </td>
                 </tr>
