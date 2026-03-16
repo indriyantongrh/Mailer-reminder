@@ -130,7 +130,7 @@ function buildEmailHTML(userName, daysLeft, expiryDate, tier) {
           
           <!-- Header Banner with Gradient -->
           <tr>
-            <td style="${bannerGradient}padding:36px 32px 28px;text-align:center;">
+            <td style="${bannerGradient}padding:36px 32px 56px;text-align:center;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding-bottom:16px;">
